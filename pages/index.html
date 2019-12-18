@@ -14,7 +14,6 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       Coveo.SearchEndpoint.configureSampleEndpointV2();
-      Coveo.init(document.body);
 
       $('#button-click').click(function () {
         var facetElement = Coveo.$$(document).find('.CoveoFacet[data-title="Source"]');
@@ -23,16 +22,39 @@
         Coveo.executeQuery(document.body);
       });
 
-      Coveo.load("Tab").then(function(Tab) {
-         var secondTabElement = Coveo.$$(document).find(".CoveoTab[data-id='ANewTab']")
-         var secondTabInstance = Coveo.get(secondTabElement);
-         secondTabInstance.select();
-       });
+      Coveo.load("Tab").then(function (Tab) {
+        var secondTabElement = Coveo.$$(document).find(".CoveoTab[data-id='ANewTab']")
+        var secondTabInstance = Coveo.get(secondTabElement);
+        secondTabInstance.select();
+      });
+
+      var root = document.body;
+      Coveo.$$(root).on('querySuccess', function (e, args) {
+        var results = args.results.results;
+        var listElement = document.querySelector('ul');
+        listElement.innerHTML = '';
+        results.map(function (result) {
+          var liElement = document.createElement('li');
+          liElement.innerText = result.title;
+          listElement.appendChild(liElement);
+        })
+      });
+
+      Coveo.$$(root).on('doneBuildingQuery', function(e, args) {
+       var queryBuilder = args.queryBuilder;
+       var expression = queryBuilder.expression.build();
+       if(expression != null && expression.match(/foo/i)) {
+         queryBuilder.advancedExpression.add('bar');
+       }
+      });
+
+      Coveo.init(document.body);
     })
   </script>
 </head>
 
 <body id="search" class='CoveoSearchInterface' data-enable-history="true">
+  <ul></ul>
   <div class="coveo-tab-section">
     <a class="CoveoTab" data-id="All" data-caption="Everything"></a>
     <a class="CoveoTab" data-id="ANewTab" data-caption="A New Tab"></a>
