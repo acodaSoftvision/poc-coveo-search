@@ -19,7 +19,7 @@
       $('#button-click').click(function () {
         var facetElement = Coveo.$$(document).find('.CoveoFacet[data-title="Source"]');
         var facetInstance = Coveo.get(facetElement);
-        facetInstance.selectValue('Coveo Samples - Youtube BBC News');
+        facetInstance.selectValue('Coveo Samples - Youtube BBC News'); //Commit example
         Coveo.executeQuery(document.body);
       });
 
