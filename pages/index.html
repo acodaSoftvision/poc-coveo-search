@@ -25,19 +25,26 @@
       //   args.queryBuilder.advancedExpression.addFieldExpression('@filetype', '==', ['youtubevideo']);
       // })
 
-      Coveo.$$(root).on('doneBuildingQuery', function (e, args) {
+      Coveo.$$(root).on('buildingQuery', function(e, args) {
         var currentBasicExpression = args.queryBuilder.expression.build();
         if (currentBasicExpression) {
-          args.queryBuilder.advancedExpression.addFieldExpression('@filetype', '==', [currentBasicExpression]);
+          args.queryBuilder.advancedExpression.addFieldExpression('@author', '*=', [currentBasicExpression]);
         }
-      })
+      });
 
-      // $('#button-click').click(function () {
-      //   var facetElement = Coveo.$$(document).find('.CoveoFacet[data-title="Source"]');
-      //   var facetInstance = Coveo.get(facetElement);
-      //   facetInstance.selectValue('Coveo Samples - Youtube BBC News'); //Commit example
-      //   Coveo.executeQuery(document.body);
-      // });
+      // Coveo.$$(root).on('doneBuildingQuery', function (e, args) {
+      //   var currentBasicExpression = args.queryBuilder.expression.build();
+      //   if (currentBasicExpression) {
+      //     args.queryBuilder.advancedExpression.addFieldExpression('@filetype', '==', [currentBasicExpression]);
+      //   }
+      // })
+
+      $('#button-click').click(function () {
+        var facetElement = Coveo.$$(document).find('.CoveoFacet[data-title="Source"]');
+        var facetInstance = Coveo.get(facetElement);
+        facetInstance.selectValue('Madeon - Adventure'); //Commit example
+        Coveo.executeQuery(document.body);
+      });
 
       // Coveo.load("Tab").then(function (Tab) {
       //   var secondTabElement = Coveo.$$(document).find(".CoveoTab[data-id='ANewTab']")
@@ -76,7 +83,7 @@
     <a class="CoveoTab" data-id="All" data-caption="Everything"></a>
     <a class="CoveoTab" data-id="ANewTab" data-caption="A New Tab"></a>
   </div>
-  <button id="button-click">Click me</button>
+  <button id="button-click">Click me I'm a Madeon filter</button>
   <div class='coveo-search-section'>
     <div class="CoveoSettings"></div>
     <div class="CoveoSearchbox" data-enable-omnibox="true"></div>
